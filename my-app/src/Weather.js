@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Weather.css";
 import axios from "axios";
 import Info from "./Info";
-import Forcast from "./Forcast";
 
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
@@ -12,13 +11,15 @@ export default function Weather(props) {
     console.log(response.data);
     setWeatherData({
       ready: true,
-      temp: response.data.temperature.current,
-      des: response.data.condition.description,
-      humi: response.data.temperature.humidity,
+      coordinates: response.data.coord,
+      temp: response.data.main.temp,
+      des: response.data.weather[0].description,
+      humi: response.data.main.humidity,
       wind: response.data.wind.speed,
-      iconUrl: `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`,
+      iconUrl: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      icon: response.data.weather[0].icon,
       city: response.data.name,
-      date: new Date(response.data.time * 1000),
+      date: new Date(response.data.dt * 1000),
     });
   }
 
@@ -31,7 +32,7 @@ export default function Weather(props) {
     setCity(event.target.value);
   }
   function search() {
-    const Url = `https://api.shecodes.io/weather/v1/current?query=${city}&key=5a672aa271oba8c4c6073t525f8b14c8&units=metric`;
+    const Url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5f472b7acba333cd8a035ea85a0d4d4c&units=metric`;
 
     axios.get(Url).then(handleTemp);
   }
@@ -55,9 +56,8 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-        <h1>{city}</h1>
+
         <Info data={weatherData} />
-        <Forcast />
       </div>
     );
   } else {

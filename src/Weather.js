@@ -9,7 +9,6 @@ export default function Weather(props) {
   let [city, setCity] = useState(props.city);
 
   function handleTemp(response) {
-    console.log(response.data);
     setWeatherData({
       ready: true,
       coordinates: response.data.coord,
@@ -39,7 +38,7 @@ export default function Weather(props) {
 
   if (weatherData.ready) {
     return (
-      <div class="weather">
+      <div className="weather">
         <form onSubmit={handlesearch}>
           <div class="row">
             <div class="col-9">

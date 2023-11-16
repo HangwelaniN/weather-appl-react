@@ -45,3 +45,7 @@
 .units {
   color: rgb(57, 163, 250);
 }
+
+.unit:hover {
+  color: rgb(255, 192, 241);
+}
